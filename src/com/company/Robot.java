@@ -23,28 +23,40 @@ public class Robot {
     }
 
     public int start() {
-        while (distance >= 0) {
-            for (Leg leg : legList) {
-                if (distance >= 0 /*&& currentLeg == leg.getNumberOfleg()*/) {
-                    distance = distance - leg.getStepLenght();
-                    System.out.println("Нога " + leg.getNumberOfleg() + " сделала шаг");
-                    System.out.println("Осталось пройти " + distance);
-                    steps++;
-                    if (currentLeg != legs) {
-                        currentLeg++;
-                    } else {
-                        currentLeg = 1;
-                    }
-                }
+        for (Leg leg : legList){
+            try {
+                leg.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }
-        for (Leg leg : legList) {
-            leg.interrupt();
         }
         return steps;
     }
 
     public int getCurrentLeg() {
         return currentLeg;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public void setCurrentLeg(int currentLeg) {
+        this.currentLeg = currentLeg;
+        if (currentLeg > legs){
+            this.currentLeg = 1;
+        }
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 }
